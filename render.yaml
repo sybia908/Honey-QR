@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: honey-qr
+    env: php
+    buildCommand: composer install --no-interaction --prefer-dist --optimize-autoloader && npm install && npm run build && php artisan config:cache && php artisan route:cache && php artisan view:cache
+    startCommand: php artisan serve --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: APP_NAME
+        value: "Honey QR"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        fromService:
+          name: honey-qr
+          type: web
+          property: url
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: db.dhpogmrulnvmkhdzjpqh.supabase.co
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USERNAME
+        value: postgres
+      - key: DB_PASSWORD
+        value: G4l4xymini
+      - key: SUPABASE_URL
+        value: https://dhpogmrulnvmkhdzjpqh.supabase.co
+      - key: SUPABASE_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRocG9nbXJ1bG52bWtoZHpqcHFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg3MDcsImV4cCI6MjA2MjYyNDcwN30.n3Kywx5Os9kAKg2a4XwcNaJ14zC1OG7sSfdqzfuWTac
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: CACHE_DRIVER
+        value: file
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: SESSION_LIFETIME
+        value: 120
+      - key: APP_KEY
+        generateValue: true
