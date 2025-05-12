@@ -60,9 +60,9 @@ jobs:
         DB_PORT: 5432
         DB_DATABASE: postgres
         DB_USERNAME: postgres
-        DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        DB_PASSWORD: G4l4xymini
         SUPABASE_URL: https://dhpogmrulnvmkhdzjpqh.supabase.co
-        SUPABASE_KEY: ${{ secrets.SUPABASE_API_KEY }}
+        SUPABASE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRocG9nbXJ1bG52bWtoZHpqcHFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg3MDcsImV4cCI6MjA2MjYyNDcwN30.n3Kywx5Os9kAKg2a4XwcNaJ14zC1OG7sSfdqzfuWTac
       run: |
         echo "Configuring Supabase connection..."
         php artisan config:clear

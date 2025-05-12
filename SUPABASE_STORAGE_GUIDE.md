@@ -84,6 +84,6 @@ Semua ini sudah terimplementasi di `SupabaseService` yang telah kita buat.
 
 ## Catatan Penting
 
-- File yang disimpan dalam bucket `public` dapat diakses oleh siapa saja yang memiliki URL file tersebut
+- File yang disimpan dalam bucket `honeyqr-storage` dapat diakses oleh siapa saja yang memiliki URL file tersebut
 - Untuk file yang bersifat sensitif atau pribadi, pertimbangkan untuk membuat bucket terpisah dengan kebijakan akses yang lebih ketat
 - Pastikan untuk tidak menyimpan informasi sensitif dalam nama file
