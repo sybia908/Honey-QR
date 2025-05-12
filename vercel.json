@@ -1,0 +1,50 @@
+{
+  "version": 2,
+  "framework": "laravel",
+  "builds": [
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "api/**",
+      "use": "@vercel/php"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/build/(.*)",
+      "dest": "/public/build/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/public/favicon.ico"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/public/robots.txt"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
+    }
+  ],
+  "env": {
+    "APP_NAME": "Honey QR",
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "APP_URL": "https://honey-qr.vercel.app",
+    "DB_CONNECTION": "pgsql",
+    "DB_HOST": "db.dhpogmrulnvmkhdzjpqh.supabase.co",
+    "DB_PORT": "5432",
+    "DB_DATABASE": "postgres",
+    "DB_USERNAME": "postgres",
+    "SUPABASE_URL": "https://dhpogmrulnvmkhdzjpqh.supabase.co",
+    "LOG_CHANNEL": "stack",
+    "BROADCAST_DRIVER": "log",
+    "CACHE_DRIVER": "file",
+    "QUEUE_CONNECTION": "sync",
+    "SESSION_DRIVER": "cookie",
+    "SESSION_LIFETIME": "120"
+  }
+}
