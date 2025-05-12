@@ -11,7 +11,11 @@ Dokumen ini berisi panduan lengkap untuk men-deploy aplikasi Honey QR ke GitHub 
    ```
 3. Tambahkan remote repository:
    ```bash
+   # HTTPS
    git remote add origin https://github.com/sybia908/Honey-QR.git
+   
+   # ATAU menggunakan SSH
+   git remote add origin git@github.com:sybia908/Honey-QR.git
    ```
 
 ## 2. Konfigurasi Supabase
@@ -102,7 +106,7 @@ CREATE TABLE IF NOT EXISTS public.attendances (
 4. Buat bucket storage untuk menyimpan file:
    - Buka tab "Storage" di dashboard Supabase
    - Klik "Create a new bucket"
-   - Beri nama "public" dan centang "Public bucket"
+   - Beri nama "honeyqr-storage" dan centang "Public bucket"
    - Klik "Create bucket"
 
 ## 3. Konfigurasi Aplikasi untuk Supabase
@@ -125,7 +129,7 @@ CREATE TABLE IF NOT EXISTS public.attendances (
    DB_PORT=5432
    DB_DATABASE=postgres
    DB_USERNAME=postgres
-   DB_PASSWORD=your_supabase_db_password
+   DB_PASSWORD=G4l4xymini
 
    SUPABASE_URL=https://dhpogmrulnvmkhdzjpqh.supabase.co
    SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRocG9nbXJ1bG52bWtoZHpqcHFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwNDg3MDcsImV4cCI6MjA2MjYyNDcwN30.n3Kywx5Os9kAKg2a4XwcNaJ14zC1OG7sSfdqzfuWTac

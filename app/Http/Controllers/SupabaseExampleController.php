@@ -108,7 +108,7 @@ class SupabaseExampleController extends Controller
         $filePath = $file->storeAs('uploads', $fileName, 'public');
 
         // Upload file ke Supabase Storage
-        $url = Supabase::uploadFile('public', $fileName, storage_path('app/public/' . $filePath));
+        $url = Supabase::uploadFile('honeyqr-storage', $fileName, storage_path('app/public/' . $filePath));
 
         if (!$url) {
             return back()->with('error', 'Gagal mengupload file ke Supabase Storage');
