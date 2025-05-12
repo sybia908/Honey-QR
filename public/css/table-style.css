@@ -1,0 +1,164 @@
+/* Tampilan Tabel yang Lebih Indah */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background-color: var(--table-header-bg);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem;
+    border-bottom: none;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table tbody tr {
+    transition: all 0.2s;
+    background-color: var(--table-bg);
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: var(--table-stripe);
+}
+
+.table tbody tr:hover {
+    background-color: #FFE0A3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Light mode hover yang lebih cerah */
+[data-bs-theme="light"] .table tbody tr:hover {
+    background-color: #FFE0A3 !important;
+    color: var(--text-dark);
+}
+
+/* Dark mode hover yang lebih cerah */
+[data-bs-theme="dark"] .table tbody tr:hover {
+    background-color: #FFE0A3 !important;
+    color: black;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.table tbody td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+/* Action buttons in tables */
+.action-btn {
+    margin: 0 2px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-group {
+    display: inline-flex;
+    gap: 5px;
+}
+
+/* Dark mode adjustments */
+[data-bs-theme="dark"] .table thead th {
+    background-color: var(--primary-color);
+    color: var(--heading-color);
+}
+
+[data-bs-theme="dark"] .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-bs-theme="dark"] .table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.075);
+}
+
+/* Action buttons in tables */
+.table .btn-group .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.table .badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Responsive tables */
+.table-responsive {
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    scrollbar-width: thin;
+    scrollbar-color: var(--honey-color) var(--honey-lightest);
+}
+
+/* Custom scrollbar untuk Chrome, Edge, dan Safari */
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: var(--honey-lightest);
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: var(--honey-color);
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background-color: var(--honey-dark);
+}
+
+@media (max-width: 768px) {
+    .table-responsive-sm {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Make table header sticky on mobile */
+    .table-responsive thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+}

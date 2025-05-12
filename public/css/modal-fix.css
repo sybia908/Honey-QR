@@ -1,0 +1,47 @@
+.delete-modal {
+    z-index: 1060 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+    inset: 0 !important;
+    transition: none !important;
+}
+
+.modal-backdrop {
+    z-index: 1050 !important;
+    pointer-events: none !important;
+}
+
+.modal-dialog {
+    position: relative !important;
+    transform: none !important;
+    transition: none !important;
+    margin: 1.75rem auto !important;
+    pointer-events: auto !important;
+}
+
+.modal-content {
+    border: 2px solid var(--honey-color);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    pointer-events: auto !important;
+}
+
+.modal-header {
+    background-color: var(--honey-color);
+    color: white;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.modal-backdrop.show {
+    opacity: 0.6;
+}

@@ -1,0 +1,138 @@
+/* Custom Pagination Styling for Laravel Pagination */
+
+/* Hide Tailwind specific classes that cause layout issues */
+[class*="flex-1"], 
+[class*="sm:flex"], 
+[class*="sm:hidden"],
+[class*="sm:flex-1"], 
+[class*="sm:items-center"], 
+[class*="sm:justify-between"] {
+    display: block !important;
+}
+
+/* Main Pagination Container */
+[aria-label="Pagination Navigation"] {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    font-family: var(--e-global-typography-primary-font-family, 'Poppins'), sans-serif;
+}
+
+/* Pagination Info */
+[aria-label="Pagination Navigation"] p {
+    color: var(--text-color);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+/* Buttons Container */
+[aria-label="Pagination Navigation"] > div:last-child,
+[aria-label="Pagination Navigation"] .relative.z-0.inline-flex.shadow-sm.rounded-md {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    width: 100%;
+}
+
+/* Fix Previous and Next position */
+[aria-label="Pagination Navigation"] div.flex.justify-between.flex-1.sm\:hidden {
+    display: none !important;
+}
+
+/* Structure the pagination better */
+[aria-label="Pagination Navigation"] .relative.z-0.inline-flex.shadow-sm.rounded-md {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Pagination Buttons */
+[aria-label="Pagination Navigation"] a,
+[aria-label="Pagination Navigation"] span:not([class*="font-medium"]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.875rem;
+    line-height: 1;
+    color: var(--text-color);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+/* Current Page */
+[aria-label="Pagination Navigation"] span[aria-current="page"] span {
+    background-color: var(--primary-color);
+    color: var(--text-dark);
+    border-color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Hover State */
+[aria-label="Pagination Navigation"] a:hover {
+    background-color: var(--primary-color);
+    color: var(--text-dark);
+    border-color: var(--primary-color);
+    z-index: 2;
+}
+
+/* Disabled State */
+[aria-label="Pagination Navigation"] span[aria-disabled="true"] span {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* Previous/Next Controls */
+[aria-label="Pagination Navigation"] [aria-label*="Previous"],
+[aria-label="Pagination Navigation"] [aria-label*="Next"] {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* SVG Icons */
+[aria-label="Pagination Navigation"] svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Small Screen Styles */
+@media (min-width: 640px) {
+    [aria-label="Pagination Navigation"] {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    [aria-label="Pagination Navigation"] > div:first-child {
+        display: block !important;
+    }
+    
+    [aria-label="Pagination Navigation"] p {
+        text-align: left;
+        margin-bottom: 0;
+    }
+}
+
+/* Dark Mode Adjustments */
+[data-bs-theme="dark"] [aria-label="Pagination Navigation"] a,
+[data-bs-theme="dark"] [aria-label="Pagination Navigation"] span:not([class*="font-medium"]) {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-bs-theme="dark"] [aria-label="Pagination Navigation"] span[aria-current="page"] span {
+    background-color: var(--primary-color);
+    color: var(--heading-color);
+}
