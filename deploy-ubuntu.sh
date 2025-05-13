@@ -20,7 +20,20 @@ apt upgrade -y
 # Tambahkan repository PHP
 echo "Menambahkan repository PHP..."
 apt install -y software-properties-common
-add-apt-repository ppa:ondrej/php -y
+
+# Coba tambahkan PPA dengan add-apt-repository
+echo "Mencoba menambahkan PPA dengan add-apt-repository..."
+if add-apt-repository ppa:ondrej/php -y; then
+    echo "PPA berhasil ditambahkan."
+else
+    echo "Gagal menambahkan PPA. Mencoba metode alternatif..."
+    # Alternatif jika add-apt-repository gagal
+    apt install -y apt-transport-https lsb-release ca-certificates wget
+    echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
+    wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
+    echo "Repository PHP alternatif berhasil ditambahkan."
+fi
+
 apt update
 
 # Pilih versi PHP

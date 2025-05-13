@@ -17,7 +17,19 @@ Tambahkan repository PPA untuk PHP versi terbaru:
 
 ```bash
 sudo apt install -y software-properties-common
+
+# Coba tambahkan PPA
 sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+```
+
+**Jika mengalami masalah koneksi ke api.launchpad.net**, Anda dapat menambahkan repository secara manual:
+
+```bash
+# Alternatif jika add-apt-repository gagal
+sudo apt install -y apt-transport-https lsb-release ca-certificates
+sudo sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+wget -qO - https://packages.sury.org/php/apt.gpg | sudo apt-key add -
 sudo apt update
 ```
 
