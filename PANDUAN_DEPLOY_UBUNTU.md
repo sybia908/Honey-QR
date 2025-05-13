@@ -11,13 +11,31 @@ sudo apt update
 sudo apt upgrade -y
 ```
 
-### 2. Instal Paket yang Diperlukan
+### 2. Tambahkan Repository PHP
+
+Tambahkan repository PPA untuk PHP versi terbaru:
+
+```bash
+sudo apt install -y software-properties-common
+sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+```
+
+### 3. Instal Paket yang Diperlukan
+
+Untuk PHP 8.1:
 
 ```bash
 sudo apt install -y nginx mariadb-server php8.1-fpm php8.1-cli php8.1-common php8.1-mysql php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath php8.1-intl php8.1-pgsql unzip git
 ```
 
-### 3. Konfigurasi MariaDB
+Atau untuk PHP 8.2 (alternatif jika PHP 8.1 tidak tersedia):
+
+```bash
+sudo apt install -y nginx mariadb-server php8.2-fpm php8.2-cli php8.2-common php8.2-mysql php8.2-zip php8.2-gd php8.2-mbstring php8.2-curl php8.2-xml php8.2-bcmath php8.2-intl php8.2-pgsql unzip git
+```
+
+### 4. Konfigurasi MariaDB
 
 ```bash
 sudo mysql_secure_installation
@@ -25,7 +43,7 @@ sudo mysql_secure_installation
 
 Ikuti petunjuk untuk mengatur password root dan mengamankan instalasi MariaDB.
 
-### 4. Buat Database dan User untuk Aplikasi
+### 5. Buat Database dan User untuk Aplikasi
 
 ```bash
 sudo mysql -u root -p
@@ -158,7 +176,11 @@ sudo -u www-data php artisan view:cache
 Jika diperlukan, restart layanan:
 
 ```bash
+# Untuk PHP 8.1
 sudo systemctl restart php8.1-fpm
+
+# Atau untuk PHP 8.2 (jika menggunakan PHP 8.2)
+# sudo systemctl restart php8.2-fpm
 sudo systemctl restart nginx
 ```
 

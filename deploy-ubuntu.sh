@@ -17,11 +17,32 @@ echo "Memperbarui sistem..."
 apt update
 apt upgrade -y
 
+# Tambahkan repository PHP
+echo "Menambahkan repository PHP..."
+apt install -y software-properties-common
+add-apt-repository ppa:ondrej/php -y
+apt update
+
+# Pilih versi PHP
+echo "Pilih versi PHP yang akan digunakan:"
+echo "1) PHP 8.1 (default)"
+echo "2) PHP 8.2"
+read -p "Pilihan [1/2]: " php_version
+php_version=${php_version:-1}
+
+if [ "$php_version" = "1" ]; then
+    PHP_VER="8.1"
+    echo "Menggunakan PHP 8.1"
+else
+    PHP_VER="8.2"
+    echo "Menggunakan PHP 8.2"
+fi
+
 # Instal paket yang diperlukan
 echo "Menginstal paket yang diperlukan..."
-apt install -y nginx mariadb-server php8.1-fpm php8.1-cli php8.1-common php8.1-mysql \
-    php8.1-zip php8.1-gd php8.1-mbstring php8.1-curl php8.1-xml php8.1-bcmath \
-    php8.1-intl php8.1-pgsql unzip git
+apt install -y nginx mariadb-server php$PHP_VER-fpm php$PHP_VER-cli php$PHP_VER-common php$PHP_VER-mysql \
+    php$PHP_VER-zip php$PHP_VER-gd php$PHP_VER-mbstring php$PHP_VER-curl php$PHP_VER-xml php$PHP_VER-bcmath \
+    php$PHP_VER-intl php$PHP_VER-pgsql unzip git
 
 # Konfigurasi direktori aplikasi
 echo "Menyiapkan direktori aplikasi..."
@@ -118,7 +139,7 @@ server {
     error_page 404 /index.php;
 
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php${PHP_VER}-fpm.sock;
         fastcgi_param SCRIPT_FILENAME \$realpath_root\$fastcgi_script_name;
         include fastcgi_params;
     }
@@ -136,7 +157,7 @@ nginx -t
 
 # Restart layanan
 echo "Merestart layanan..."
-systemctl restart php8.1-fpm
+systemctl restart php${PHP_VER}-fpm
 systemctl restart nginx
 
 # Atur izin file
