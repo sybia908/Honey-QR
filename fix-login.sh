@@ -13,7 +13,7 @@
 # PENTING: Script ini harus dijalankan dengan sudo
 
 echo "===== Script Perbaikan Login Honey QR ====="
-echo "Versi 3.1 - Perbaikan Error Dashboard Student"
+echo "Versi 3.2 - Perbaikan Path Direktori dan Error Dashboard Student"
 
 # 1. Pastikan konfigurasi .env sudah benar
 echo "Memeriksa konfigurasi .env..."
@@ -39,7 +39,13 @@ php artisan optimize:clear
 
 # 4. Periksa apakah database sudah memiliki data
 echo "Memeriksa database..."
-USER_EXISTS=$(php artisan tinker --execute="echo \App\Models\User::where('username', 'afrils')->exists() ? 'true' : 'false';")
+
+# Pastikan tinker berjalan dengan benar
+echo "<?php echo (\App\Models\User::where('username', 'afrils')->exists() ? 'true' : 'false'); ?>" > check_user.php
+USER_EXISTS=$(php check_user.php)
+rm check_user.php
+
+echo "User afrils exists: $USER_EXISTS"
 
 if [ "$USER_EXISTS" = "true" ]; then
     echo "User admin sudah ada di database. Memastikan user memiliki role admin..."
@@ -116,7 +122,30 @@ chown -R www-data:www-data storage/framework/sessions
 
 # 8.1 Perbaiki masalah view student dashboard
 echo "Memperbaiki masalah view student dashboard..."
-cat > resources/views/dashboard/student.blade.php.new << 'EOF'
+
+# Pastikan direktori ada
+mkdir -p resources/views/dashboard
+
+# Cari path sebenarnya dari aplikasi
+APP_PATH=$(pwd)
+echo "Path aplikasi: $APP_PATH"
+
+# Cari file student.blade.php
+STUDENT_BLADE_PATH=$(find $APP_PATH -name "student.blade.php" -type f | grep dashboard)
+echo "Path file student.blade.php: $STUDENT_BLADE_PATH"
+
+# Jika file ditemukan, simpan direktorinya
+if [ -n "$STUDENT_BLADE_PATH" ]; then
+    STUDENT_BLADE_DIR=$(dirname "$STUDENT_BLADE_PATH")
+    echo "Direktori file student.blade.php: $STUDENT_BLADE_DIR"
+else
+    echo "File student.blade.php tidak ditemukan. Menggunakan path default."
+    STUDENT_BLADE_DIR="$APP_PATH/resources/views/dashboard"
+    mkdir -p "$STUDENT_BLADE_DIR"
+fi
+
+# Buat file baru di direktori yang ditemukan
+cat > "$STUDENT_BLADE_DIR/student.blade.php.new" << 'EOF'
 @extends('layouts.app')
 
 @section('content')
@@ -216,9 +245,13 @@ cat > resources/views/dashboard/student.blade.php.new << 'EOF'
 EOF
 
 # Ganti file lama dengan file baru
-mv resources/views/dashboard/student.blade.php.new resources/views/dashboard/student.blade.php
-chown www-data:www-data resources/views/dashboard/student.blade.php
-chmod 644 resources/views/dashboard/student.blade.php
+mv "$STUDENT_BLADE_DIR/student.blade.php.new" "$STUDENT_BLADE_DIR/student.blade.php"
+chown www-data:www-data "$STUDENT_BLADE_DIR/student.blade.php"
+chmod 644 "$STUDENT_BLADE_DIR/student.blade.php"
+
+# Hapus cache view untuk memastikan perubahan diterapkan
+echo "Membersihkan cache view..."
+php artisan view:clear
 
 # 9. Regenerasi cache konfigurasi
 echo "Mengoptimalkan aplikasi..."
