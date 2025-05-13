@@ -27,17 +27,71 @@ php artisan view:clear
 php artisan route:clear
 php artisan optimize:clear
 
-# 4. Reset database dan jalankan migrasi baru
-echo "Reset database dan menjalankan migrasi baru..."
-php artisan migrate:fresh --force
+# 4. Periksa apakah database sudah memiliki data
+echo "Memeriksa database..."
+USER_EXISTS=$(php artisan tinker --execute="echo \App\Models\User::where('username', 'afrils')->exists() ? 'true' : 'false';")
 
-# 5. Jalankan seeder untuk roles dan permissions TERLEBIH DAHULU
-echo "Membuat roles dan permissions..."
-php artisan db:seed --class=RoleAndPermissionSeeder --force
-
-# 6. Jalankan seeder untuk membuat user admin
-echo "Membuat user admin..."
-php artisan db:seed --class=AdminUserSeeder --force
+if [ "$USER_EXISTS" = "true" ]; then
+    echo "User admin sudah ada di database. Memastikan user memiliki role admin..."
+    
+    # Pastikan role admin ada
+    ROLE_EXISTS=$(php artisan tinker --execute="echo \Spatie\Permission\Models\Role::where('name', 'admin')->exists() ? 'true' : 'false';")
+    
+    if [ "$ROLE_EXISTS" = "false" ]; then
+        echo "Role admin tidak ditemukan. Membuat role admin..."
+        php artisan tinker --execute="\Spatie\Permission\Models\Role::create(['name' => 'admin']);" > /dev/null 2>&1
+    fi
+    
+    # Assign role admin ke user afrils
+    echo "Mengassign role admin ke user afrils..."
+    php artisan tinker --execute="\App\Models\User::where('username', 'afrils')->first()->assignRole('admin');" > /dev/null 2>&1
+    
+    # Pastikan user aktif
+    echo "Memastikan user aktif..."
+    php artisan tinker --execute="\App\Models\User::where('username', 'afrils')->update(['is_active' => true]);" > /dev/null 2>&1
+    
+    # Reset password jika diperlukan
+    echo "Mereset password user admin..."
+    php artisan tinker --execute="\App\Models\User::where('username', 'afrils')->update(['password' => bcrypt('G4l4xymini')]);" > /dev/null 2>&1
+else
+    # Database kosong atau user tidak ada, lakukan migrasi dan seeding
+    echo "User admin tidak ditemukan. Melakukan migrasi dan seeding..."
+    
+    # Jalankan migrasi (tanpa fresh untuk menghindari menghapus data yang mungkin penting)
+    echo "Menjalankan migrasi database..."
+    php artisan migrate --force
+    
+    # Coba jalankan seeder roles dan permissions dengan --class untuk menghindari duplikasi
+    echo "Membuat roles dan permissions..."
+    php artisan db:seed --class=RoleAndPermissionSeeder --force || true
+    
+    # Buat user admin secara manual untuk menghindari duplikasi
+    echo "Membuat user admin secara manual..."
+    php artisan tinker --execute="
+    try {
+        \$user = \App\Models\User::firstOrCreate(
+            ['username' => 'afrils'],
+            [
+                'name' => 'Administrator',
+                'email' => 'andikabgs@gmail.com',
+                'password' => bcrypt('G4l4xymini'),
+                'is_active' => true
+            ]
+        );
+        
+        if (\Spatie\Permission\Models\Role::where('name', 'admin')->exists()) {
+            \$user->assignRole('admin');
+            echo 'User admin berhasil dibuat dan diberi role admin.';
+        } else {
+            \$role = \Spatie\Permission\Models\Role::create(['name' => 'admin']);
+            \$user->assignRole('admin');
+            echo 'User admin dan role admin berhasil dibuat.';
+        }
+    } catch (\Exception \$e) {
+        echo 'Error: ' . \$e->getMessage();
+    }
+    " || true
+fi
 
 # 7. Periksa dan perbaiki izin storage dan bootstrap/cache
 echo "Memeriksa izin direktori storage dan bootstrap/cache..."
