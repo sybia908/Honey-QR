@@ -2,9 +2,18 @@
 
 # Script untuk memperbaiki masalah login di aplikasi Honey QR
 # yang sudah di-deploy di server Ubuntu
+#
+# CARA PENGGUNAAN:
+# 1. Upload script ini ke server Ubuntu Anda
+# 2. Jalankan perintah berikut:
+#    cd /var/www/honey-qr  (sesuaikan dengan direktori aplikasi Anda)
+#    sudo chmod +x fix-login.sh
+#    sudo ./fix-login.sh
+#
+# PENTING: Script ini harus dijalankan dengan sudo
 
 echo "===== Script Perbaikan Login Honey QR ====="
-echo "Versi 3.0 - Perbaikan Error Dashboard Student"
+echo "Versi 3.1 - Perbaikan Error Dashboard Student"
 
 # 1. Pastikan konfigurasi .env sudah benar
 echo "Memeriksa konfigurasi .env..."
